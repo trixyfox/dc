@@ -1,6 +1,7 @@
 import verbMap from './verbMap.js';
 
 const reviewBlock = document.querySelectorAll('.review');
+
 // Tags
 const DEFAULT = 'default';
 const SECOND_CONVERSION = '2nd conversion';

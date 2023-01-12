@@ -1,3 +1,5 @@
+import frictionless from '../../scripts/frictionless.js';
+
 export default function init(element) {
   const widget = element;
   let WIDGET_ENV = 'https://dev.acrobat.adobe.com/dc-hosted/2.35.3_1.160.1/dc-app-launcher.js';
@@ -117,4 +119,6 @@ export default function init(element) {
       window.dispatchEvent(personalizationIsReady);
     });
   });
+
+  frictionless();
 }

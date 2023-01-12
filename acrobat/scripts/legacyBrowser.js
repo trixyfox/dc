@@ -45,7 +45,7 @@ export function browserDetection() {
 export function redirectLegacyBrowsers() {
   const browserType = browserDetection();
 
-  if (browserType === 'IE' || browserType === 'EDGE-LEGACY' || browserType === 'SAFARI-LEGACY' ) {
+  if (browserType === 'IE' || browserType === 'EDGE-LEGACY' || browserType === 'SAFARI-LEGACY') {
     window.location.assign(EOLBrowserPage);
   }
 }

@@ -14,6 +14,7 @@ const PREVIEW_GEN = 'preview-generating';
 // const UPSELL_DIS = 'upsell-displayed';
 
 export default function init(element) {
+  console.log('EV');
   const wrapper = element;
   const setCurrentEvent = (event) => {
     if (document.querySelectorAll(`[data-event-name="${event}"]`).length > 0) {
