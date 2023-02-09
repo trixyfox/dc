@@ -2,18 +2,30 @@ import ContentSecurityPolicy from './contentSecurityPolicy/csp.js';
 
 ContentSecurityPolicy();
 
+// Add project-wide styles here.
+const STYLES = '/acrobat/styles/styles.css';
+
 /*
  * ------------------------------------------------------------
  * Edit below at your own risk
  * ------------------------------------------------------------
  */
 
+function loadStyle(path) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.setAttribute('href', path);
+  document.head.appendChild(link);
+}
+
 (async function loadPage() {
   const dcConverterWidget = document.querySelector('.dc-converter-widget');
   if (dcConverterWidget) {
+    loadStyle('/blocks/dc-converter-widget/dc-converter-widget.css');
     const { default: converter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
     converter(dcConverterWidget);
   }
+
 
   // IMS Ready
   const imsReady = setInterval(() => {
