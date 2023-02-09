@@ -21,7 +21,7 @@ function loadStyle(path) {
 (async function loadPage() {
   const dcConverterWidget = document.querySelector('.dc-converter-widget');
   if (dcConverterWidget) {
-    loadStyle('/blocks/dc-converter-widget/dc-converter-widget.css');
+    loadStyle('/acrobat/blocks/dc-converter-widget/dc-converter-widget.css');
     const { default: converter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
     converter(dcConverterWidget);
   }
