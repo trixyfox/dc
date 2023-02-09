@@ -7,6 +7,7 @@ export default function init(element) {
 
   if (window.location.hostname === 'main--dc--adobecom.hlx.page'
     || window.location.hostname === 'main--dc--adobecom.hlx.live'
+    || window.location.hostname === 'widget-only--dc--adobecom.hlx.page'  
     || window.location.hostname === 'www.adobe.com') {
     WIDGET_ENV = 'https://documentcloud.adobe.com/dc-hosted/2.37.2_1.164.1/dc-app-launcher.js';
   }
