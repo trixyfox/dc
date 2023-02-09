@@ -3,6 +3,28 @@
 <style>body { display: none; }</style>
 <link rel="icon" href="data:,">
 
+<style>
+  /* First Time */
+  .dc-converter-widget {
+    min-height: 582px !important;
+  }
+
+  @media (max-width: 37.5rem) {
+    .eventwrapper.onload {
+      min-height: 3562px !important;
+    }
+    .dc-converter-widget {
+      min-height: 536px;
+    }
+  }
+
+  @media (min-width: 37.5rem) {
+    .eventwrapper.onload {
+      min-height: 1983px !important;
+    }
+  }
+</style>
+
 <!-- To ensure IE redirects -->
 <script type="text/javascript">
   if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
