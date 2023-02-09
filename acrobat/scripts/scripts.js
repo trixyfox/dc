@@ -24,7 +24,7 @@ const STYLES = '/acrobat/styles/styles.css';
 (async function loadPage() {
   const dcConverterWidget = document.querySelector('.dc-converter-widget');
   if (dcConverterWidget) {
-    const { default: converter } = await import('../blocks/dc-converter-widget.js');
+    const { default: converter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
     converter(dcConverterWidget);
   }
 
