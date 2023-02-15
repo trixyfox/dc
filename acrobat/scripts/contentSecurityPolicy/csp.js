@@ -1,28 +1,18 @@
-import devCSP from './dev.js';
-import stageCSP from './stage.js';
-import prodCSP from './prod.js';
+const PROD_ENVS = ['main--dc--adobecom.hlx.live', 'www.adobe.com'];
+const STAGE_ENVS = ['stage--dc--adobecom.hlx.page', 'main--dc--adobecom.hlx.page', 'www.stage.adobe.com'];
 
-let ENV;
-let NAME;
-
-if (window.location.hostname === 'main--dc--adobecom.hlx.live'
-  || window.location.hostname === 'www.adobe.com') {
-  ENV = prodCSP;
-  // temp
-  NAME = 'prod';
-} else if (window.location.hostname === 'stage--dc--adobecom.hlx.page'
-  || window.location.hostname === 'main--dc--adobecom.hlx.page'
-  || window.location.hostname === 'www.stage.adobe.com') {
-  ENV = stageCSP;
-  // temp
-  NAME = 'stage';
-} else {
-  ENV = devCSP;
-  // temp
-  NAME = 'dev';
+async function getCspEnv() {
+  const { hostname } = window.location;
+  const cspEnv =
+    (PROD_ENVS.includes(hostname)) ? 'prod'
+    : (STAGE_ENVS.includes(hostname)) ? 'stage'
+    : 'dev';
+  return import(`./${cspEnv}.js`);
 }
 
-export default function ContentSecurityPolicy() {
+export default async function ContentSecurityPolicy() {
+  const { default: ENV } = await getCspEnv();
+
   const theCSP = `connect-src ${ENV.connectSrc.join(' ')}\
   default-src ${ENV.defaultSrc.join(' ')}\
   font-src ${ENV.fontSrc.join(' ')}\

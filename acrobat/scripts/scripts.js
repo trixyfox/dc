@@ -166,8 +166,8 @@ const CONFIG = {
   const { default: lanaLogging } = await import('./dcLana.js');
 
   // Setup CSP
-  // const { default: ContentSecurityPolicy } = await import('./contentSecurityPolicy/csp.js');
-  // ContentSecurityPolicy();
+  const { default: ContentSecurityPolicy } = await import('./contentSecurityPolicy/csp.js');
+  ContentSecurityPolicy();
 
   // Milo and site styles
   const paths = [`${miloLibs}/styles/styles.css`];
