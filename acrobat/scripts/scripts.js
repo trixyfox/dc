@@ -149,6 +149,7 @@ const CONFIG = {
  */
 
 (async function loadPage() {
+  // Fast track the widget
   const widgetBlock = document.querySelector('.dc-converter-widget');
   if (widgetBlock) {
     widgetBlock.removeAttribute('class');
@@ -157,20 +158,23 @@ const CONFIG = {
     dcConverter(widgetBlock);
   }
 
+  // Setup Milo
   const { setLibs } = await import('./utils.js');
   const miloLibs = setLibs(LIBS);
 
+  // Setup Logging
   const { default: lanaLogging } = await import('./dcLana.js');
 
-  const { default: ContentSecurityPolicy } = await import('./contentSecurityPolicy/csp.js');
-  ContentSecurityPolicy();
+  // Setup CSP
+  // const { default: ContentSecurityPolicy } = await import('./contentSecurityPolicy/csp.js');
+  // ContentSecurityPolicy();
 
-  // Milo and page styles
+  // Milo and site styles
   const paths = [`${miloLibs}/styles/styles.css`];
   if (STYLES) { paths.push(STYLES); }
   loadStyles(paths);
 
-
+  // Import base milo features and run them
   const { loadArea, loadDelayed, loadScript, setConfig, loadLana } = await import(`${miloLibs}/utils/utils.js`);
   setConfig({ ...CONFIG, miloLibs });
   await loadArea();
