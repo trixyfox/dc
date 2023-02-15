@@ -10,34 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import { setLibs } from './utils.js';
-import lanaLogging from './dcLana.js';
-import ContentSecurityPolicy from './contentSecurityPolicy/csp.js';
-
-// Set the CSP
-// Send errors to LANA
-ContentSecurityPolicy();
-
-// Bowser Ready
-const bowserEle = document.createElement('script');
-bowserEle.id = 'bowserID';
-bowserEle.setAttribute('src', '/acrobat/scripts/bowser.js');
-document.head.appendChild(bowserEle);
-const bowserReady = setInterval(() => {
-  if (window.bowser) {
-    clearInterval(bowserReady);
-    const bowserIsReady = new CustomEvent('Bowser:Ready');
-    window.dispatchEvent(bowserIsReady);
-  }
-}, 100);
-
-// CLS Scripts
-const head = document.querySelector('head');
-const clsPopIn = document.createElement('link');
-clsPopIn.id = 'CLS_POPIN';
-clsPopIn.setAttribute('rel', 'stylesheet');
-clsPopIn.setAttribute('href', '/acrobat/styles/cls.css');
-head.appendChild(clsPopIn);
+function loadStyles(paths) {
+  paths.forEach((path) => {
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('href', path);
+    document.head.appendChild(link);
+  });
+}
 
 // Add project-wide styles here.
 const STYLES = '/acrobat/styles/styles.css';
@@ -168,21 +148,30 @@ const CONFIG = {
  * ------------------------------------------------------------
  */
 
-const miloLibs = setLibs(LIBS);
+(async function loadPage() {
+  const widgetBlock = document.querySelector('.dc-converter-widget');
+  if (widgetBlock) {
+    widgetBlock.removeAttribute('class');
+    widgetBlock.id = 'dc-converter-widget';
+    const { default: dcConverter } = await import('../blocks/dc-converter-widget/dc-converter-widget.js');
+    dcConverter(widgetBlock);
+  }
 
-(function loadStyles() {
+  const { setLibs } = await import('./utils.js');
+  const miloLibs = setLibs(LIBS);
+
+  const { default: lanaLogging } = await import('./dcLana.js');
+
+  const { default: ContentSecurityPolicy } = await import('./contentSecurityPolicy/csp.js');
+  ContentSecurityPolicy();
+
+  // Milo and page styles
   const paths = [`${miloLibs}/styles/styles.css`];
   if (STYLES) { paths.push(STYLES); }
-  paths.forEach((path) => {
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', path);
-    document.head.appendChild(link);
-  });
-}());
+  loadStyles(paths);
 
-(async function loadPage() {
-  const { loadArea, loadDelayed, setConfig, loadLana } = await import(`${miloLibs}/utils/utils.js`);
+
+  const { loadArea, loadDelayed, loadScript, setConfig, loadLana } = await import(`${miloLibs}/utils/utils.js`);
   setConfig({ ...CONFIG, miloLibs });
   await loadArea();
   loadDelayed();
@@ -206,4 +195,15 @@ const miloLibs = setLibs(LIBS);
       window.dispatchEvent(imsIsReady);
     }
   }, 1000);
+
+  loadScript('/acrobat/scripts/bowser.js');
 }());
+
+// Bowser Ready
+const bowserReady = setInterval(() => {
+  if (window.bowser) {
+    clearInterval(bowserReady);
+    const bowserIsReady = new CustomEvent('Bowser:Ready');
+    window.dispatchEvent(bowserIsReady);
+  }
+}, 100);

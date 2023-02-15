@@ -24,9 +24,12 @@ export default function init(element) {
   widget.querySelector('div').id = 'VERB';
   const VERB = widget.querySelector('div').innerText.trim().toLowerCase();
 
+  const goUrlDiv = widget.querySelectorAll('div')[2];
+  let goUrl;
   // Redir URL
-  if (widget.querySelectorAll('div')[2]) {
-    widget.querySelectorAll('div')[2].classList.add('hide');
+  if (goUrlDiv) {
+    goUrl = goUrlDiv.textContent.trim();
+    goUrlDiv.remove();
   }
 
   // Redirect
@@ -39,12 +42,11 @@ export default function init(element) {
         return;
         // Add Go URL for stage
       }
-      window.location = widget.querySelectorAll('div')[2].textContent.trim() || fallBack;
+      window.location = goUrl || fallBack;
     }
   };
   const widgetContainer = document.createElement('div');
   widgetContainer.id = 'CID';
-  widgetContainer.className = 'dc-wrapper';
   widget.appendChild(widgetContainer);
 
   const firstTimeUser = window.localStorage.getItem('pdfnow.auth');
