@@ -1,7 +1,9 @@
 import frictionless from '../../scripts/frictionless.js';
 import { redirectLegacyBrowsers } from '../../scripts/legacyBrowser.js';
 
-const pageLang = document.querySelector('html').lang;
+// const pageLang = document.querySelector('html').lang;
+const pageLang = 'en-US';
+
 
 export default function init(element) {
   const widget = element;
