@@ -182,6 +182,50 @@ const miloLibs = setLibs(LIBS);
 }());
 
 (async function loadPage() {
+  console.log('in load page');
+  let DC_WIDGET_VERSION;
+  const widgetData = document.createElement('meta');
+  widgetData.id = 'widgetDataID';
+  await fetch('https://main--dc--adobecom.hlx.page/drafts/sonja/book.json')
+    .then((response) => response.json())
+    .then((data) => {
+      DC_WIDGET_VERSION = data.data[0].version;
+      console.log('Version set in excel sheet', DC_WIDGET_VERSION);
+      widgetData.setAttribute('version', DC_WIDGET_VERSION);
+      document.head.appendChild(widgetData);
+    });
+  await fetch(`https://acrobat.adobe.com/dc-hosted/${DC_WIDGET_VERSION}/info.json`)
+    .then((response) => {
+      if (!response.ok) {
+        console.log('Version set in excel sheet is not valid.');
+        DC_WIDGET_VERSION = false;
+      } else {
+        console.log('version is correct');
+        return response.json();
+      }
+    }).then((data) => {
+      if (data) {
+        widgetData.setAttribute('cache-version', data.content['dc-generate-cache'].version);
+        console.log('corresponding cache-version to dc authored version', data.content['dc-generate-cache'].version);
+      }
+
+  });
+  if (!DC_WIDGET_VERSION) {
+    console.log('since incorrect version is set in excel, we will use latest dc widget version');
+    let latestDCHostedVersion;
+    let latestDCGEnerateCacheVersion;
+    await fetch('https://acrobat.adobe.com/dc-hosted/private/info.json')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('latest dc hosted version', data.content['dc-hosted'].version);
+        latestDCHostedVersion = data.content['dc-hosted'].version;
+        console.log('latest generate cache version',  data.content['dc-generate-cache'].version);
+        latestDCGEnerateCacheVersion = data.content['dc-generate-cache'].version;
+        widgetData.setAttribute('version', latestDCHostedVersion);
+        widgetData.setAttribute('cache-version', latestDCGEnerateCacheVersion);
+      });
+  }
+
   const { loadArea, loadDelayed, setConfig, loadLana } = await import(`${miloLibs}/utils/utils.js`);
   setConfig({ ...CONFIG, miloLibs });
   loadLana({ clientId: 'dxdc' });

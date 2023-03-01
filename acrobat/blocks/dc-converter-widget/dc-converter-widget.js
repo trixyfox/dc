@@ -5,7 +5,12 @@ const pageLang = document.querySelector('html').lang;
 
 export default function init(element) {
   const widget = element;
-  let WIDGET_ENV = 'https://dev.acrobat.adobe.com/dc-hosted/2.37.2_1.165.0/dc-app-launcher.js';
+  let WIDGET_VERSION = document.querySelector('#widgetDataID')?.getAttribute('version');
+  let GENERATE_CACHE_VERSION = document.querySelector('#widgetDataID')?.getAttribute('cache-version');
+  console.log('in dc converter widget', WIDGET_VERSION);
+  console.log('cache version', GENERATE_CACHE_VERSION);
+  //old vidget v 2.37.2_1.165.0
+  let WIDGET_ENV = `https://dev.acrobat.adobe.com/dc-hosted/${WIDGET_VERSION}/dc-app-launcher.js`;
   let ENV = 'dev';
   let REDIRECT_URL = '';
   let DC_GENERATE_CACHE_URL = '';
@@ -13,13 +18,13 @@ export default function init(element) {
   if (window.location.hostname === 'main--dc--adobecom.hlx.page'
     || window.location.hostname === 'main--dc--adobecom.hlx.live'
     || window.location.hostname === 'www.adobe.com') {
-    WIDGET_ENV = 'https://documentcloud.adobe.com/dc-hosted/2.37.2_1.165.0/dc-app-launcher.js';
+    WIDGET_ENV = `https://documentcloud.adobe.com/dc-hosted/${WIDGET_VERSION}/dc-app-launcher.js`;
     ENV = 'prod';
   }
 
   if (window.location.hostname === 'stage--dc--adobecom.hlx.page'
     || window.location.hostname === 'www.stage.adobe.com' ) {
-    WIDGET_ENV = 'https://stage.acrobat.adobe.com/dc-hosted/2.37.2_1.165.0/dc-app-launcher.js';
+    WIDGET_ENV = `https://stage.acrobat.adobe.com/dc-hosted/${WIDGET_VERSION}/dc-app-launcher.js`;
     ENV = 'stage';
   }
 
@@ -64,7 +69,7 @@ export default function init(element) {
   if (preRender) {
     (async () => {
       // TODO: Make dynamic
-      const response = await fetch(DC_GENERATE_CACHE_URL || `https://documentcloud.adobe.com/dc-generate-cache/dc-hosted-1.163.1/${VERB}-${pageLang.toLocaleLowerCase()}.html`);
+      const response = await fetch(DC_GENERATE_CACHE_URL || `https://documentcloud.adobe.com/dc-generate-cache/${GENERATE_CACHE_VERSION}/${VERB}-${pageLang.toLocaleLowerCase()}.html`);
       // eslint-disable-next-line default-case
       switch (response.status) {
         case 200:
