@@ -43,7 +43,7 @@ const connectSrc = [
   'main--milo--adobecom.hlx.live',
   'fast-track--milo--adobecom.hlx.page',
   'fast-track--milo--adobecom.hlx.live',
-  'cdn.linkedin.oribi.io/partner/872/domain/*',
+  'cdn.linkedin.oribi.io/partner/872/domain/*/token',
   '*.hlx.page',
   ';',
 ];
