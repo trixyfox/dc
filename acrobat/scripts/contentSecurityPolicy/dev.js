@@ -187,7 +187,7 @@ const scriptSrc = [
   'fast-track--milo--adobecom.hlx.live',
   'api.demandbase.com',
   '*.hlx.page',
-  'cdn.linkedin.oribi.io/partner/872/domain/*/token'.
+  'cdn.linkedin.oribi.io/partner/872/domain/*/token',
   ';',
 ];
 
