@@ -112,7 +112,6 @@ const imgSrc = [
   'p.adsymptotic.com/d/px/',
   'pt.ispot.tv/',
   'px.ads.linkedin.com',
-  'cdn.linkedin.oribi.io/partner/872/domain/*/token',
   'segments.company-target.com',
   't.co/i/',
   'www.adobe.com',
